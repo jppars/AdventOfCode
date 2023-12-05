@@ -6,12 +6,14 @@ def part1(f):
     input = f.readlines()
 
     for line in input:
-        line = re.sub(r'.*:(.*)(?:\n|$)', r'\1', line)
-        line = re.sub(r'\b(\d+)\b(?=.*\|.*\b\1\b)', r'x', line)
-        line = re.sub(r'[^x]', '', line)
+        matches = re.findall(r'(?<=\s)(\d+)(?=\s.*\|.*\b\1\b)', line)
 
-        if len(line) > 0:
-            total += 2 ** (len(line) - 1)
+        # line = re.sub(r'.*:(.*)(?:\n|$)', r'\1', line)
+        # line = re.sub(r'\b(\d+)\b(?=.*\|.*\b\1\b)', r'x', line)
+        # line = re.sub(r'[^x]', '', line)
+
+        if len(matches) > 0:
+            total += 2 ** (len(matches) - 1)
 
     return total
 
@@ -20,11 +22,13 @@ def part2(f):
     copies = [1] * len(input)
 
     for i, line in enumerate(input):
-        line = re.sub(r'.*:(.*)(?:\n|$)', r'\1', line)
-        line = re.sub(r'\b(\d+)\b(?=.*\|.*\b\1\b)', r'x', line)
-        line = re.sub(r'[^x]', '', line)
+        matches = re.findall(r'(?<=\s)(\d+)(?=\s.*\|.*\b\1\b)', line)
 
-        for j in range(len(line)):
+        # line = re.sub(r'.*:(.*)(?:\n|$)', r'\1', line)
+        # line = re.sub(r'\b(\d+)\b(?=.*\|.*\b\1\b)', r'x', line)
+        # line = re.sub(r'[^x]', '', line)
+
+        for j in range(len(matches)):
             copies[i + j + 1] += copies[i]
 
     return sum(copies)
