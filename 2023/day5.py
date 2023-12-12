@@ -45,6 +45,30 @@ def part2(f):
         seed_range = (seed, seed + seeds[i + 1])
         valid_ranges.append(seed_range)
 
+    min_location = 1e12
+
+    for location in range(max([val[0] + val[1] for val in maps[-1][1]])):
+        current_val = location
+        for map in maps[::-1]:
+            for entry in map:
+                if entry[1][0] <= current_val < entry[1][1]:
+                    current_val = entry[0][0] + (current_val - entry[1][0])
+                    break
+        
+        for pair in valid_ranges:
+            if pair[0] <= current_val < pair[1]:
+                min_location = location
+                break
+        
+        if min_location != 1e12:
+            break
+
+    return min_location
+
+    # min_location = 17729182
+    # seed_val = 4002147451
+
+
     # for j, test_map in enumerate(maps):
     #     valid_ranges.append([])
     #     for src_pair in valid_ranges[j]:
@@ -79,12 +103,12 @@ def part2(f):
     #             if not matched:
     #                 valid_ranges[j + 1].append(pair)
 
-    min_location = 1e12
-    for pair in valid_ranges[-1]:
-        if pair[0] < min_location:
-            min_location = pair[0]
+    # min_location = 1e12
+    # for pair in valid_ranges[-1]:
+    #     if pair[0] < min_location:
+    #         min_location = pair[0]
 
-    return min_location
+    # return min_location
 
 with open('day5_input.txt', 'r') as f:
     print('Results of Part 1: {}'.format(part1(f)))
